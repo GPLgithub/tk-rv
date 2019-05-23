@@ -1,11 +1,24 @@
 
 import sgtk
 import os
+from rv import rvtypes
+from rv import commands as rvcommands
+
+class ShotgunToolkitMode(rvtypes.MinorMode):
+    """
+    """
+    _TK_RV_MODE_NAME = "Shotgun"
+    def __init__(self):
+        super(ShotgunToolkitMode, self).__init__()
+        # INITIALIZE mode
+        self.init(self._TK_RV_MODE_NAME, [], None, [("Shotgun", None)])
 
 def start_toolkit():
     """
     Bootstrapping routine.
     """
+    sg_tk_mode = ShotgunToolkitMode()
+    sg_tk_mode.activate()
     context = sgtk.context.deserialize(os.environ.get("TANK_CONTEXT"))
     sgtk.platform.start_engine("tk-rv", context.sgtk, context)
 

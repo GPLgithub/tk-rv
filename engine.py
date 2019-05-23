@@ -47,7 +47,7 @@ class RVEngine(Engine):
 
         :returns:   str
         """
-        return os.environ.get("TK_RV_MODE_NAME")
+        return os.environ.get("TK_RV_MODE_NAME", "Shotgun")
 
     @property
     def bg_task_manager(self):
@@ -138,7 +138,11 @@ class RVEngine(Engine):
         # below, this code would also have to change:
         # MenuGenerator.create_menu().
         if not "type" in properties or properties["type"] != "context_menu":
-            super(RVEngine, self).register_command(name, callback, properties)
+            super(RVEngine, self).register_command(
+                name,
+                callback,
+                properties
+            )
 
     def post_app_init(self):
         """

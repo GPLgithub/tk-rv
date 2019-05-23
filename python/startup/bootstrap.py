@@ -15,31 +15,26 @@ import sys
 def bootstrap(engine_name, context, app_path, app_args, extra_args):
     """
     Prepares for the bootstrapping process that will run during startup of
-    Nuke, Hiero, and Nuke Studio.
-    .. NOTE:: For detailed documentation of the bootstrap process for Nuke,
-              Hiero, and Nuke Studio, see the engine documentation in
-              `tk-nuke/engine.py`.
+    RV.
     """
     import sgtk
     engine = sgtk.platform.current_engine()
 
+    # Startup script
     startup_path = os.path.normpath(
         os.path.join(
             os.path.abspath(os.path.dirname(__file__)),
             "startup.py"
         ) # tk-rv/startup
     )
-
+    # Disable standard integration which ships with RV
     os.environ["RV_SHOTGUN_NO_SG_REVIEW_MENU"] = "1"
+    # Enable debug.
     os.environ["RV_TK_LOG_DEBUG"] = "1"
+    # TODO: have a clean way to clean up the path
+    os.environ["PATH"] = "/usr/bin:/bin:/usr/sbin:/sbin"
 
-#    file_to_open = os.environ.get("TANK_FILE_TO_OPEN")
-#
-#    if file_to_open:
-#        if app_args:
-#            app_args = "%s %s" % (file_to_open, app_args)
-#        else:
-#            app_args = file_to_open
+    # Tell RV to run the startup script.
     app_args = "-pyeval 'import runpy; runpy.run_path(\"%s\");'" % (
         startup_path
     )
