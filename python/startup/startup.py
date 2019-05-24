@@ -17,8 +17,6 @@ def start_toolkit():
     """
     Bootstrapping routine.
     """
-    sg_tk_mode = ShotgunToolkitMode()
-    sg_tk_mode.activate()
     context = sgtk.context.deserialize(os.environ.get("TANK_CONTEXT"))
     sgtk.platform.start_engine("tk-rv", context.sgtk, context)
 
@@ -28,4 +26,10 @@ def start_toolkit():
     if "TANK_FILE_TO_OPEN" in os.environ:
         del os.environ["TANK_FILE_TO_OPEN"]
 
-start_toolkit()
+def createMode():
+    """
+    Needed by RV to load this script as a mode.
+    """
+    mode = ShotgunToolkitMode()
+    start_toolkit()
+    return mode

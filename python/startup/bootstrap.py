@@ -34,8 +34,12 @@ def bootstrap(engine_name, context, app_path, app_args, extra_args):
     # TODO: have a clean way to clean up the path
     os.environ["PATH"] = "/usr/bin:/bin:/usr/sbin:/sbin"
 
-    # Tell RV to run the startup script.
-    app_args = "-pyeval 'import runpy; runpy.run_path(\"%s\");'" % (
-        startup_path
+    # Tell RV to load our startup script as a mode:
+    # Set the PYTHONPATH so our startup.py module will be found
+    os.environ["PYTHONPATH"] = "%s:%s" % (
+        os.path.dirname(startup_path),
+        os.environ["PYTHONPATH"]
     )
+    # Tell RV to load the startup mode:
+    app_args = "-flags ModeManagerVerbose ModeManagerLoad=startup"
     return (app_path, app_args)

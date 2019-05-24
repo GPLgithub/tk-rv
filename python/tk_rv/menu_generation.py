@@ -120,6 +120,10 @@ class MenuGenerator(object):
             self.engine.toolkit_rv_mode_name,
             mode_menu_definition,
         )
+        self.engine.log_info("Created %s menu for %s mode" % (
+            self.engine.default_menu_name,
+            self.engine.toolkit_rv_mode_name,
+        ))
 
     def destroy_menu(self):
         """
